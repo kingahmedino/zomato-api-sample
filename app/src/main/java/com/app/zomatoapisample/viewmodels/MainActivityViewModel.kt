@@ -7,17 +7,24 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
+import com.app.zomatoapisample.interfaces.GetLocationListener
 import com.app.zomatoapisample.models.LocationInfo
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 class MainActivityViewModel(context: Context): ViewModel() {
+    var mGetLocationListener: GetLocationListener? = null
     val requestPermissionCode = 1
     var mLocation: Location? = null
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private val mContext = context
 
+    fun setGetLocationListener(getLocationListener: GetLocationListener){
+        mGetLocationListener = getLocationListener
+    }
+
     fun getUserLocation(){
+        mGetLocationListener?.onStarted()
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mContext)
         getLastLocation()
     }
@@ -36,6 +43,7 @@ class MainActivityViewModel(context: Context): ViewModel() {
                     if (location != null) {
                         LocationInfo.latitude = location.latitude
                         LocationInfo.longitude = location.longitude
+                        mGetLocationListener?.onSuccess("Success")
                     }
                 }
         }

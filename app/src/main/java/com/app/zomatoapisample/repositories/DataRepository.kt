@@ -1,5 +1,6 @@
 package com.app.zomatoapisample.repositories
 
+import android.util.Log
 import com.app.zomatoapisample.backend.BackEnd
 import com.app.zomatoapisample.interfaces.DataRepoResponseListener
 import com.app.zomatoapisample.models.Restaurant
@@ -21,6 +22,7 @@ object DataRepository {
             -15.794896, -47.928253, 2)
             .enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("DataRepo", "getRestaurant: onFailure")
                     mDataRepoResponseListener?.onFailure(t.message.toString())
                 }
 
@@ -29,6 +31,7 @@ object DataRepository {
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful){
+                        Log.d("DataRepo", "getRestaurant: onSuccessful")
                         mDataRepoResponseListener?.onSuccess("Successful")
                     }
                 }

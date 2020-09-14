@@ -7,12 +7,14 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
+import com.app.zomatoapisample.interfaces.DataRepoResponseListener
 import com.app.zomatoapisample.interfaces.GetLocationListener
 import com.app.zomatoapisample.models.LocationInfo
+import com.app.zomatoapisample.repositories.DataRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class MainActivityViewModel: ViewModel() {
+class MainActivityViewModel: ViewModel(), DataRepoResponseListener {
     var mGetLocationListener: GetLocationListener? = null
     val requestPermissionCode = 1
     var mLocation: Location? = null
@@ -43,6 +45,8 @@ class MainActivityViewModel: ViewModel() {
                         LocationInfo.latitude = location.latitude
                         LocationInfo.longitude = location.longitude
                         mGetLocationListener?.onSuccess("Success")
+                        DataRepository.setDataRepoResponseListener(this)
+                        DataRepository.getRestaurants()
                     }
                 }
         }
@@ -55,5 +59,13 @@ class MainActivityViewModel: ViewModel() {
             requestPermissionCode
         )
         getLastLocation()
+    }
+
+    override fun onSuccess(s: String) {
+        mGetLocationListener?.onSuccess(s)
+    }
+
+    override fun onFailure(message: String) {
+        mGetLocationListener?.onFailure()
     }
 }

@@ -10,9 +10,9 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface BackEnd {
-    @GET("restaurant/search")
+    @GET("search")
     fun getRestaurants(
-        @Header("user_key") userKey: String,
+        @Header("user-key") userKey: String,
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("count") count: Int
@@ -21,7 +21,7 @@ interface BackEnd {
     companion object{
         operator fun invoke(): BackEnd{
             return Retrofit.Builder()
-                .baseUrl("https://developers.zomato.com/documentation/")
+                .baseUrl("https://developers.zomato.com/api/v2.1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(BackEnd::class.java)

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener{
 
     override fun onRestaurantResponseSuccessful(mutableLiveData: MutableLiveData<MutableList<Restaurant>>) {
         mutableLiveData.observe(this, Observer {
-            Toast.makeText(this, it.size, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it[0].name, Toast.LENGTH_SHORT).show()
         })
     }
 

@@ -34,8 +34,7 @@ object DataRepository {
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful){
-                        Log.d("DataRepo", "getRestaurant: onSuccessful")
-                        mutableLiveResponse.value = getRestaurantsFromJSON(response.body().toString())
+                        mutableLiveResponse.value = getRestaurantsFromJSON(response.body()?.string())
                         mDataRepoListener?.onSuccess(mutableLiveResponse)
                     }
                 }
@@ -43,12 +42,14 @@ object DataRepository {
             })
     }
 
-    fun getRestaurantsFromJSON(string: String): MutableList<Restaurant>? {
+    fun getRestaurantsFromJSON(string: String?): MutableList<Restaurant>? {
         val outputList = mutableListOf<Restaurant>()
-        val parent = JSONObject(string)
-        val restaurantArray = parent.getJSONArray("restaurant")
-        for (i in 0..restaurantArray.length()){
-            val jsonObject = restaurantArray[i] as JSONObject
+        Log.d("DataRepo", "getRestaurantsFromJSON: $string")
+        val parent = JSONObject(string!!)
+        val restaurantArray = parent.getJSONArray("restaurants")
+        for (i in 0 until restaurantArray.length()){
+            val json = restaurantArray[i] as JSONObject
+            val jsonObject = json.getJSONObject("restaurant")
             val id = jsonObject.getString("id")
             val name = jsonObject.getString("name")
             val locationObject = jsonObject.getJSONObject("location")

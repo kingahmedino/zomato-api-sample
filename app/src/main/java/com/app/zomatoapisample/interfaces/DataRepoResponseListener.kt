@@ -1,6 +1,6 @@
 package com.app.zomatoapisample.interfaces
 
 interface DataRepoResponseListener {
-    fun onSuccess()
-    fun onFailure()
+    fun onSuccess(s: String)
+    fun onFailure(message: String)
 }

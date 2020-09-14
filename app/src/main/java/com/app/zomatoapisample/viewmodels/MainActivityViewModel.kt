@@ -12,26 +12,25 @@ import com.app.zomatoapisample.models.LocationInfo
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class MainActivityViewModel(context: Context): ViewModel() {
+class MainActivityViewModel: ViewModel() {
     var mGetLocationListener: GetLocationListener? = null
     val requestPermissionCode = 1
     var mLocation: Location? = null
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    private val mContext = context
-
+    
     fun setGetLocationListener(getLocationListener: GetLocationListener){
         mGetLocationListener = getLocationListener
     }
 
     fun getUserLocation(){
         mGetLocationListener?.onStarted()
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mContext)
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mGetLocationListener as Activity)
         getLastLocation()
     }
 
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
-                mContext,
+                mGetLocationListener as Activity,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -51,9 +50,10 @@ class MainActivityViewModel(context: Context): ViewModel() {
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
-            mContext as Activity,
+            mGetLocationListener as Activity,
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             requestPermissionCode
         )
+        getLastLocation()
     }
 }

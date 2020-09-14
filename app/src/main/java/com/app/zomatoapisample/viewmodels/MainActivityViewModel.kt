@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
+import com.app.zomatoapisample.models.LocationInfo
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -33,7 +34,8 @@ class MainActivityViewModel(context: Context): ViewModel() {
                 .addOnSuccessListener { location: Location? ->
                     mLocation = location
                     if (location != null) {
-
+                        LocationInfo.latitude = location.latitude
+                        LocationInfo.longitude = location.longitude
                     }
                 }
         }

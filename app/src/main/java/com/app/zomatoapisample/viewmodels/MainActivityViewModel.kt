@@ -20,9 +20,13 @@ class MainActivityViewModel: ViewModel(), DataRepoListener {
     private val requestPermissionCode = 1
     var mLocation: Location? = null
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    
+
     fun setGetLocationListener(mainActivityVMListener: MainActivityVMListener){
         mMainActivityVMListener = mainActivityVMListener
+    }
+
+    fun searchRestaurants(query: String){
+        DataRepository.getRestaurants(query)
     }
 
     fun getUserLocation(){
@@ -47,7 +51,7 @@ class MainActivityViewModel: ViewModel(), DataRepoListener {
                         LocationInfo.longitude = location.longitude
                         mMainActivityVMListener?.onSuccess("Success")
                         DataRepository.setDataRepoResponseListener(this)
-                        DataRepository.getRestaurants()
+                        DataRepository.getRestaurants(DEFAULT_QUERY)
                     }
                 }
         }
@@ -69,5 +73,9 @@ class MainActivityViewModel: ViewModel(), DataRepoListener {
 
     override fun onFailure(message: String) {
         mMainActivityVMListener?.onFailure()
+    }
+
+    companion object{
+        private const val DEFAULT_QUERY = ""
     }
 }

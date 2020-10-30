@@ -15,6 +15,7 @@ interface BackEnd {
         @Header("user-key") userKey: String,
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
+        @Query("q") q: String,
         @Query("count") count: Int
     ): Call<ResponseBody>
 

@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
     var isLoadingLocation = false
     var isLoadingRestaurants = false
     lateinit var mainBinding: ActivityMainBinding
+    lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
         mainBinding.isLoadingLocation = isLoadingLocation
         mainBinding.isLoadingRestaurants = isLoadingRestaurants
 
-        val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         mainActivityViewModel.setGetLocationListener(this)
         mainActivityViewModel.getUserLocation()
     }
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     mainBinding.mainActivityRV.scrollToPosition(0)
-
+                    mainActivityViewModel.searchRestaurants(query)
                     searchView.clearFocus()
                 }
                 return true

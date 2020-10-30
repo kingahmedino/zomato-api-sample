@@ -12,6 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object DataRepository {
+    private const val TAG = "DataRepository"
     private var mDataRepoListener: DataRepoListener? = null
 
     fun setDataRepoResponseListener(dataRepoListener: DataRepoListener){
@@ -25,7 +26,7 @@ object DataRepository {
             -15.794896, -47.928253, 2)
             .enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("DataRepo", "getRestaurant: onFailure")
+                    Log.d(TAG, "getRestaurant: onFailure")
                     mDataRepoListener?.onFailure(t.message.toString())
                 }
 
@@ -52,14 +53,16 @@ object DataRepository {
             val jsonObject = json.getJSONObject("restaurant")
             val id = jsonObject.getString("id")
             val name = jsonObject.getString("name")
+            val featuredImage = jsonObject.getString("featured_image")
             val locationObject = jsonObject.getJSONObject("location")
             val address = locationObject.getString("address")
             val locality = locationObject.getString("locality")
             val city = locationObject.getString("city")
             val latitude = locationObject.getDouble("latitude")
             val longitude = locationObject.getDouble("longitude")
+            Log.d(TAG, "getRestaurantsFromJSON: $featuredImage")
 
-            outputList.add(Restaurant(id, name, address, city, longitude, latitude, locality))
+            outputList.add(Restaurant(id, name, address, city, featuredImage, longitude, latitude, locality))
         }
         return outputList
     }

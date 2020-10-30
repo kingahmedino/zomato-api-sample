@@ -49,7 +49,7 @@ class MainActivityViewModel: ViewModel(), DataRepoListener {
                     if (location != null) {
                         LocationInfo.latitude = location.latitude
                         LocationInfo.longitude = location.longitude
-                        mMainActivityVMListener?.onSuccess("Success")
+                        mMainActivityVMListener?.onSuccess("Got user location successfully")
                         DataRepository.setDataRepoResponseListener(this)
                         DataRepository.getRestaurants(DEFAULT_QUERY)
                     }

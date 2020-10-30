@@ -3,10 +3,7 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="isLoadingLocation"
-            type="java.lang.Boolean" />
-        <variable
-            name="isLoadingRestaurants"
+            name="isLoading"
             type="java.lang.Boolean" />
 
     </data>
@@ -24,27 +21,27 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            android:visibility="@{isLoadingLocation || isLoadingRestaurants ? View.VISIBLE: View.INVISIBLE}"
+            android:visibility="@{isLoading ? View.VISIBLE: View.INVISIBLE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Getting user location"
-            android:textSize="24sp"
-            android:visibility="@{isLoadingLocation ? View.VISIBLE: View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/mainActivityPB"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/mainActivityPB"
-            app:layout_constraintTop_toBottomOf="@+id/mainActivityPB" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="Getting user location"-->
+<!--            android:textSize="24sp"-->
+<!--            android:visibility="@{isLoadingLocation ? View.VISIBLE: View.INVISIBLE}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/mainActivityPB"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/mainActivityPB"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/mainActivityPB" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainActivityRV"
@@ -58,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{isLoadingLocation || isLoadingRestaurants ? View.INVISIBLE: View.VISIBLE}"/>
+            android:visibility="@{isLoading ? View.INVISIBLE: View.VISIBLE}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

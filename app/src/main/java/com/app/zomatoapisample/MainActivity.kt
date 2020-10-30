@@ -20,16 +20,14 @@ import com.app.zomatoapisample.viewmodels.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainActivityVMListener {
-    var isLoadingLocation = false
-    var isLoadingRestaurants = false
+    var isLoading = false
     lateinit var mainBinding: ActivityMainBinding
     lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mainBinding.isLoadingLocation = isLoadingLocation
-        mainBinding.isLoadingRestaurants = isLoadingRestaurants
+        mainBinding.isLoading = isLoading
 
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         mainActivityViewModel.setGetLocationListener(this)
@@ -69,22 +67,21 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
                 it.adapter = MainRecyclerAdapter(restaurants, this)
             }
         })
-        mainBinding.isLoadingLocation = false
-        mainBinding.isLoadingRestaurants = false
+        mainBinding.isLoading = false
     }
 
     override fun onStarted() {
-        mainBinding.isLoadingLocation = true
+        mainBinding.isLoading = true
     }
 
     override fun onSuccess(message: String) {
-        Toast.makeText(this, "$message + ${LocationInfo.latitude}", Toast.LENGTH_SHORT).show()
-        mainBinding.isLoadingLocation = false
-        mainBinding.isLoadingRestaurants = false
+        Toast.makeText(
+            this, "$message\nLatitude: ${LocationInfo.latitude} Longitude: ${LocationInfo.longitude}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onFailure() {
-        mainBinding.isLoadingLocation = false
-        mainBinding.isLoadingRestaurants = false
+        mainBinding.isLoading = false
     }
 }

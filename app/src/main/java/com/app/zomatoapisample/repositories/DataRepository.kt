@@ -23,7 +23,7 @@ object DataRepository {
         val mutableLiveResponse = MutableLiveData<MutableList<Restaurant>>()
 
         BackEnd().getRestaurants("1b3c8b37ea96785391fa55c288ac385c",
-            -15.794896, -47.928253, 2)
+            40.732013, -73.996155, 10)
             .enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.d(TAG, "getRestaurant: onFailure")

@@ -47,6 +47,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
+    //glide
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+
     //web service requests
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
                 if (query != null) {
                     mainBinding.mainActivityRV.scrollToPosition(0)
                     mainActivityViewModel.searchRestaurants(query)
+                    mainBinding.isLoading = true
                     searchView.clearFocus()
                 }
                 return true
@@ -77,11 +78,12 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener {
     override fun onSuccess(message: String) {
         Toast.makeText(
             this, "$message\nLatitude: ${LocationInfo.latitude} Longitude: ${LocationInfo.longitude}",
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
     }
 
     override fun onFailure() {
         mainBinding.isLoading = false
+        Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show()
     }
 }

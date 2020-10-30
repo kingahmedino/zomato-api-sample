@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.app.zomatoapisample.backend.BackEnd
 import com.app.zomatoapisample.interfaces.DataRepoListener
+import com.app.zomatoapisample.models.LocationInfo
 import com.app.zomatoapisample.models.Restaurant
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -23,7 +24,7 @@ object DataRepository {
         val mutableLiveResponse = MutableLiveData<MutableList<Restaurant>>()
 
         BackEnd().getRestaurants("1b3c8b37ea96785391fa55c288ac385c",
-            40.732013, -73.996155, query,10)
+            LocationInfo.latitude, LocationInfo.longitude, query,50)
             .enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.d(TAG, "getRestaurant: onFailure")

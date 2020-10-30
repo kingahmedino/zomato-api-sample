@@ -1,8 +1,11 @@
 package com.app.zomatoapisample
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -16,7 +19,7 @@ import com.app.zomatoapisample.models.Restaurant
 import com.app.zomatoapisample.viewmodels.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainActivityVMListener{
+class MainActivity : AppCompatActivity(), MainActivityVMListener {
     var isLoadingLocation = false
     var isLoadingRestaurants = false
     lateinit var mainBinding: ActivityMainBinding
@@ -30,6 +33,30 @@ class MainActivity : AppCompatActivity(), MainActivityVMListener{
         val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         mainActivityViewModel.setGetLocationListener(this)
         mainActivityViewModel.getUserLocation()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    mainBinding.mainActivityRV.scrollToPosition(0)
+
+                    searchView.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
+        return true
     }
 
     override fun onRestaurantResponseSuccessful(mutableLiveData: MutableLiveData<MutableList<Restaurant>>) {
